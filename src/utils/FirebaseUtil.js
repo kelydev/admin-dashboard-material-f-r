@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -41,4 +42,16 @@ export async function firebaseLogIn(credentials) {
     return false;
   }
   return true;
+}
+
+export async function firebaseGetCollection(collectionName) {
+  let list = [];
+  const query = collection(getFirestore(), collectionName);
+  const response = await getDocs(query);
+  response.forEach((document) => {
+    let element = document.data();
+    element.id = document.id;
+    list.push(element);
+  });
+  return list;
 }

@@ -15,13 +15,15 @@ import {
 import { firebaseRegisterUser } from 'src/utils/FirebaseUtil';
 
 const Register = () => {
+
+  const navigate = useNavigate();
+
   const registerUser = (user) => {
     console.log(user);
     firebaseRegisterUser(user.email, user.password);
-    navigate('/app/dashboard', { replace: true });
+    alert('Registrado');
+    navigate('/login', { replace: true });
   };
-
-  const navigate = useNavigate();
 
   return (
     <>

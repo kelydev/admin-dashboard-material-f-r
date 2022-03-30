@@ -128,7 +128,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.firstname} {customer.lastname}
+                        {customer.firstName} {customer.lastName}
                       </Typography>
                     </Box>
                   </TableCell>

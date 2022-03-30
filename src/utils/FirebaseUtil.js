@@ -1,14 +1,16 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { collection, doc, getDocs, getFirestore, setDoc } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
+import { uuid } from 'uuidv4';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-export function firebaseConfig() {
+export const firebaseConfig = () => {
   const config = {
     apiKey: "AIzaSyDuxn_GR1_n36V586LUdiZv84_Su1v5Uqk",
     authDomain: "admin-dashboard-e.firebaseapp.com",
@@ -24,14 +26,14 @@ export function firebaseConfig() {
   const analytics = getAnalytics(app);
 }
 
-export function firebaseRegisterUser(email, password) {
+export const firebaseRegisterUser = (email, password) => {
   createUserWithEmailAndPassword(getAuth(), email, password)
     .then(credentials => {
       console.log(credentials);
     })
 }
 
-export async function firebaseLogIn(credentials) {
+export const firebaseLogIn = async (credentials) => {
   const { email, password } = credentials;
   const auth = getAuth();
   try {
@@ -44,7 +46,7 @@ export async function firebaseLogIn(credentials) {
   return true;
 }
 
-export async function firebaseGetCollection(collectionName) {
+export const firebaseGetCollection = async (collectionName) => {
   let list = [];
   const query = collection(getFirestore(), collectionName);
   const response = await getDocs(query);
@@ -54,4 +56,10 @@ export async function firebaseGetCollection(collectionName) {
     list.push(element);
   });
   return list;
+}
+
+export const firebaseCreate = (coleccion, element) => {
+  element.id = uuid();
+  let reference = doc(getFirestore(), coleccion, element.id);
+  setDoc(reference, element);
 }

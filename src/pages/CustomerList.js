@@ -13,7 +13,6 @@ const CustomerList = () => {
   const getCustomers = async () => {
     let response = await firebaseGetCollection('customers');
     setCustomers(response);
-    console.log(response);
   }
 
   useEffect(() => {

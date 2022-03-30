@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, getDocs, getFirestore, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, getFirestore, setDoc } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -62,4 +62,8 @@ export const firebaseCreate = (coleccion, element) => {
   element.id = uuid();
   let reference = doc(getFirestore(), coleccion, element.id);
   setDoc(reference, element);
+}
+
+export const firebaseDelete = async (coleccion, id) => {
+  await deleteDoc(doc(getFirestore(), coleccion, id));
 }

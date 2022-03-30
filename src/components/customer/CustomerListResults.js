@@ -5,6 +5,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
   Table,
@@ -16,6 +17,7 @@ import {
   Typography
 } from '@material-ui/core';
 import getInitials from '../../utils/getInitials';
+import { firebaseDelete } from 'src/utils/FirebaseUtil';
 
 const CustomerListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -95,6 +97,9 @@ const CustomerListResults = ({ customers, ...rest }) => {
                 <TableCell>
                   Registration date
                 </TableCell>
+                <TableCell>
+                  Actions
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -122,7 +127,7 @@ const CustomerListResults = ({ customers, ...rest }) => {
                         src="https://cdn-icons-png.flaticon.com/512/616/616408.png"
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(customer.name)}
+                        {getInitials(customer.firstName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
@@ -143,6 +148,19 @@ const CustomerListResults = ({ customers, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {moment(customer.createdAt).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={() => {
+                        firebaseDelete('customers', customer.id);
+                        alert(`El cliente ${customer.firstName} se eliminó con éxito`);
+                        window.location.reload(true);
+                      }}
+                      color="error"
+                      variant="contained"
+                    >
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
